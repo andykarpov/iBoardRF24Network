@@ -7,8 +7,8 @@
  */
 
 #include "RF24Network_config.h"
-#include "RF24.h"
-#include "RF24Network.h"
+#include "iBoardRF24.h"
+#include "iBoardRF24Network.h"
 
 uint16_t RF24NetworkHeader::next_id = 1;
 
@@ -17,13 +17,13 @@ bool is_valid_address( uint16_t node );
 
 /******************************************************************/
 
-RF24Network::RF24Network( RF24& _radio ): radio(_radio), next_frame(frame_queue)
+iBoardRF24Network::iBoardRF24Network( iBoardRF24& _radio ): radio(_radio), next_frame(frame_queue)
 {
 }
 
 /******************************************************************/
 
-void RF24Network::begin(uint8_t _channel, uint16_t _node_address )
+void iBoardRF24Network::begin(uint8_t _channel, uint16_t _node_address )
 {
   if (! is_valid_address(_node_address) )
     return;
@@ -50,7 +50,7 @@ void RF24Network::begin(uint8_t _channel, uint16_t _node_address )
 
 /******************************************************************/
 
-void RF24Network::update(void)
+void iBoardRF24Network::update(void)
 {
   // if there is data ready
   uint8_t pipe_num;
@@ -102,7 +102,7 @@ void RF24Network::update(void)
 
 /******************************************************************/
 
-bool RF24Network::enqueue(void)
+bool iBoardRF24Network::enqueue(void)
 {
   bool result = false;
   
@@ -127,7 +127,7 @@ bool RF24Network::enqueue(void)
 
 /******************************************************************/
 
-bool RF24Network::available(void)
+bool iBoardRF24Network::available(void)
 {
   // Are there frames on the queue for us?
   return (next_frame > frame_queue);
@@ -135,7 +135,7 @@ bool RF24Network::available(void)
 
 /******************************************************************/
 
-void RF24Network::peek(RF24NetworkHeader& header)
+void iBoardRF24Network::peek(RF24NetworkHeader& header)
 {
   if ( available() )
   {
@@ -146,7 +146,7 @@ void RF24Network::peek(RF24NetworkHeader& header)
 
 /******************************************************************/
 
-size_t RF24Network::read(RF24NetworkHeader& header,void* message, size_t maxlen)
+size_t iBoardRF24Network::read(RF24NetworkHeader& header,void* message, size_t maxlen)
 {
   size_t bufsize = 0;
 
@@ -171,7 +171,7 @@ size_t RF24Network::read(RF24NetworkHeader& header,void* message, size_t maxlen)
 
 /******************************************************************/
 
-bool RF24Network::write(RF24NetworkHeader& header,const void* message, size_t len)
+bool iBoardRF24Network::write(RF24NetworkHeader& header,const void* message, size_t len)
 {
   // Fill out the header
   header.from_node = node_address;
@@ -198,7 +198,7 @@ bool RF24Network::write(RF24NetworkHeader& header,const void* message, size_t le
 
 /******************************************************************/
 
-bool RF24Network::write(uint16_t to_node)
+bool iBoardRF24Network::write(uint16_t to_node)
 {
   bool ok = false;
   
@@ -258,7 +258,7 @@ bool RF24Network::write(uint16_t to_node)
 
 /******************************************************************/
 
-bool RF24Network::write_to_pipe( uint16_t node, uint8_t pipe )
+bool iBoardRF24Network::write_to_pipe( uint16_t node, uint8_t pipe )
 {
   bool ok = false;
   
@@ -291,7 +291,7 @@ const char* RF24NetworkHeader::toString(void) const
 
 /******************************************************************/
 
-bool RF24Network::is_direct_child( uint16_t node )
+bool iBoardRF24Network::is_direct_child( uint16_t node )
 {
   bool result = false;
 
@@ -314,14 +314,14 @@ bool RF24Network::is_direct_child( uint16_t node )
 
 /******************************************************************/
 
-bool RF24Network::is_descendant( uint16_t node )
+bool iBoardRF24Network::is_descendant( uint16_t node )
 {
   return ( node & node_mask ) == node_address;
 }
 
 /******************************************************************/
 
-void RF24Network::setup_address(void)
+void iBoardRF24Network::setup_address(void)
 {
   // First, establish the node_mask
   uint16_t node_mask_check = 0xFFFF;
@@ -353,7 +353,7 @@ void RF24Network::setup_address(void)
 
 /******************************************************************/
 
-uint16_t RF24Network::direct_child_route_to( uint16_t node )
+uint16_t iBoardRF24Network::direct_child_route_to( uint16_t node )
 {
   // Presumes that this is in fact a child!!
 
@@ -363,7 +363,7 @@ uint16_t RF24Network::direct_child_route_to( uint16_t node )
 
 /******************************************************************/
 
-uint8_t RF24Network::pipe_to_descendant( uint16_t node )
+uint8_t iBoardRF24Network::pipe_to_descendant( uint16_t node )
 {
   uint16_t i = node;
   uint16_t m = node_mask;

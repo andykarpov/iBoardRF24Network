@@ -6,8 +6,8 @@
  version 2 as published by the Free Software Foundation.
  */
 
-#ifndef __RF24NETWORK_H__
-#define __RF24NETWORK_H__
+#ifndef __IBOARD_RF24NETWORK_H__
+#define __IBOARD_RF24NETWORK_H__
 
 /**
  * @file RF24Network.h
@@ -18,7 +18,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-class RF24;
+class iBoardRF24;
 
 /**
  * Header which is sent with each message
@@ -77,7 +77,7 @@ struct RF24NetworkHeader
  * by RF24 library.
  */
 
-class RF24Network
+class iBoardRF24Network
 {
 public:
   /**
@@ -86,7 +86,7 @@ public:
    * @param _radio The underlying radio driver instance
    *
    */
-  RF24Network( RF24& _radio );
+  iBoardRF24Network( iBoardRF24& _radio );
 
   /**
    * Bring up the network
@@ -161,7 +161,7 @@ protected:
   void setup_address(void);
 
 private:
-  RF24& radio; /**< Underlying radio driver, provides link/physical layers */ 
+  iBoardRF24& radio; /**< Underlying radio driver, provides link/physical layers */ 
   uint16_t node_address; /**< Logical node address of this unit, 1 .. UINT_MAX */
   const static int frame_size = 32; /**< How large is each frame over the air */ 
   uint8_t frame_buffer[frame_size]; /**< Space to put the frame that will be sent/received over the air */
@@ -339,5 +339,5 @@ private:
  * will bridge to another kind of network like Ethernet.  ZigBee calls it a Co-ordinator node.
  */
 
-#endif // __RF24NETWORK_H__
+#endif // __IBOARD_RF24NETWORK_H__
 // vim:ai:cin:sts=2 sw=2 ft=cpp

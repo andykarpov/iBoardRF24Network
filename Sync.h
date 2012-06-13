@@ -18,7 +18,7 @@
 #include <RF24Network_config.h>
 // Project headers
 
-class RF24Network;
+class iBoardRF24Network;
 
 /**
  * Synchronizes a shared set of variables between multiple nodes
@@ -27,7 +27,7 @@ class RF24Network;
 class Sync
 {
 private:
-  RF24Network& network;
+  iBoardRF24Network& network;
   uint8_t* app_data; /**< Application's copy of the data */
   uint8_t* internal_data; /**< Our copy of the data */
   size_t len; /**< Length of the data in bytes */
@@ -40,7 +40,7 @@ public:
    *
    * @param _network Which network to syncrhonize over
    */
-  Sync(RF24Network& _network): network(_network), app_data(NULL),
+  Sync(iBoardRF24Network& _network): network(_network), app_data(NULL),
     internal_data(NULL), len(0), to_node(0)
   {
   }
